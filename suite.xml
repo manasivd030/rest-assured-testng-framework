@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Restful Booker Api Tests">
+    <test verbose="2" preserve-order="true" name="Parallel Test" parallel="methods">
+        <parameter name="testParam" value="Initial Test Value"></parameter>
+                <classes>
+                   <class name="UpdateBookingApiTests"></class>
+                    <class name="GetBookingApiTests"/>
+                    <class name="CreateBookingApiTests"/>
+                    <class name="DeleteBookingApiTests"/>
+                </classes>
+    </test>
+    <listeners>
+        <listener class-name="listeners.AnnotationTransformer"></listener>
+    </listeners>
+</suite>
