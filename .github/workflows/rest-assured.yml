@@ -25,10 +25,10 @@ jobs:
           cache: maven
 
       - name: Run API Tests
-        run: mvn clean test -Pregression
+        run: mvn clean test -Pregression -q
 
       - name: Upload Allure Results
         uses: actions/upload-artifact@v4.6.2
         with:
           name: allure-results
-          path: allure-result/
+          path: allure-results
