@@ -1,0 +1,1 @@
+{"uuid":"b806fe3a-67e3-41ad-b543-5eaa23497a61","name":"DeleteBookingApiTests","children":["7f703ccb-9b9c-463a-9016-145c494880aa"],"befores":[{"name":"initApi","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1750262867092,"stop":1750262867094}],"afters":[],"start":1750262856393,"stop":1750262870460}

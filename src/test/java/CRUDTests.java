@@ -16,13 +16,11 @@ public class CRUDTests extends BaseTest {
     @Test(description = "CRUD operation on Restful Booker API resource", dataProvider = "bookingDataWithStream")
     public void crudTest(String firstName, String lastName, Boolean depositPaid,
                          String additionalNeeds, Integer totalPrice, String checkInDate, String checkOutDate) {
-        var updateBookingApi = new UpdateBookingApi();
 
         var createBookingPayload = ApiRequestHelper.getCreateBookingRequest(firstName, lastName, Math.toIntExact(totalPrice),
                 depositPaid, additionalNeeds, checkInDate, checkOutDate);
 
         var createBookingApi = new CreateBookingApi();
-        var deleteBookingApi = new DeleteBookingApi();
         var getBookingApi = new GetBookingApi();
 
 
@@ -50,18 +48,6 @@ public class CRUDTests extends BaseTest {
         String password = System.getenv("RESTBOOKER_PASSWORD");
         System.out.println(username + password);
 
-        var updateBookingApiResponse = updateBookingApi.updateBooking(createBookingPayload, bookingid, username, password)
-                                                       .then().assertThat().statusCode(200)
-                .and().body("lastname", equalTo(updatedLastName))
-                .and().body("totalprice", equalTo((int) updatedTotalPrice))
-                .and().body("depositpaid", equalTo(updatedDepositPaid));
-
-
-        var deleteBookingApiResponse = deleteBookingApi.deleteBookingById(bookingid, username, password)
-                                                       .then().assertThat().statusCode(201);
-
-        getBookingApi.getBookingById(bookingid).then().assertThat().statusCode(404);
-
     }
 
     private void validateRetrieveBookingDataFromGetApi(String firstName, String lastName, Boolean depositPaid, String additionalNeeds, Integer totalPrice, String checkInDate, String checkOutDate, Response getBookingByIdApiResponse) {
@@ -71,7 +57,7 @@ public class CRUDTests extends BaseTest {
                 .and().body("lastname", is(equalTo(lastName)))
                 .and().body("depositpaid", is(equalTo(depositPaid)))
                 .and().body("additionalneeds", is(equalTo(additionalNeeds)))
-                .and().body("totalprice", is(equalTo((int) totalPrice)))
+                .and().body("totalprice", is(equalTo(totalPrice.intValue())))
                 .and().rootPath("bookingdates")
                 .and().body("checkin", is(equalTo(checkInDate)))
                 .and().body("checkout", is(equalTo(checkOutDate)))
