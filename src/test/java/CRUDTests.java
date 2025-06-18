@@ -53,7 +53,7 @@ public class CRUDTests extends BaseTest {
         var updateBookingApiResponse = updateBookingApi.updateBooking(createBookingPayload, bookingid, username, password)
                                                        .then().assertThat().statusCode(200)
                 .and().body("lastname", equalTo(updatedLastName))
-                .and().body("totalprice", equalTo(updatedTotalPrice))
+                .and().body("totalprice", equalTo((int) updatedTotalPrice))
                 .and().body("depositpaid", equalTo(updatedDepositPaid));
 
 
@@ -71,7 +71,7 @@ public class CRUDTests extends BaseTest {
                 .and().body("lastname", is(equalTo(lastName)))
                 .and().body("depositpaid", is(equalTo(depositPaid)))
                 .and().body("additionalneeds", is(equalTo(additionalNeeds)))
-                .and().body("totalprice", is(equalTo(totalPrice)))
+                .and().body("totalprice", is(equalTo((int) totalPrice)))
                 .and().rootPath("bookingdates")
                 .and().body("checkin", is(equalTo(checkInDate)))
                 .and().body("checkout", is(equalTo(checkOutDate)))

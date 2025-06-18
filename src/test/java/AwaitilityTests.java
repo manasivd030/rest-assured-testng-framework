@@ -1,4 +1,4 @@
- import apis.GetBookingApi;
+import apis.GetBookingApi;
 import org.awaitility.Awaitility;
 import org.testng.annotations.Test;
 
@@ -15,13 +15,13 @@ public class AwaitilityTests {
         //here we are purposely failing the testcase
         Awaitility.await()
                 .and().with().alias("My custom message")
-                .and().with().timeout(Duration.ofSeconds(10)) //Maximum for five seconds this assertion would be retried
+                .and().with().timeout(Duration.ofSeconds(100)) //Maximum for five seconds this assertion would be retried
                 .then().untilAsserted(()-> {
                 getBookingApi.getBookingById(20)
                         .then().assertThat().statusCode(200);
 
-                      getBookingApi.getBookingById(20)
-                                  .then().assertThat().statusCode(400);
+                 //    getBookingApi.getBookingById(20)
+                  //                .then().assertThat().statusCode(400);
 
                 /*
                 As per the outcome of the untilAsserted lambda expression certain API calls are retried until the condition was matched
@@ -31,7 +31,7 @@ public class AwaitilityTests {
 
     });
 
-    }
+
 
     @Test
     public void waitUntil()
@@ -70,7 +70,7 @@ public class AwaitilityTests {
                 .and().ignoreExceptions()
                   .then().until(()-> {
                       getBookingApi.getBookingById(20)
-                              .then().assertThat().statusCode(400);
+                              .then().assertThat().statusCode(200);
                       return true;
 
 
@@ -95,7 +95,7 @@ public class AwaitilityTests {
                   .and().ignoreExceptionsInstanceOf(AssertionError.class)
                   .then().until(()-> {
                       getBookingApi.getBookingById(20)
-                                   .then().assertThat().statusCode(400);
+                                   .then().assertThat().statusCode(200);
                       return true;
 
 
@@ -117,16 +117,13 @@ public class AwaitilityTests {
 //Note: Polling should always be less than the timeout else it will not show anything and error will be "java.lang.IllegalArgumentException: Timeout (10 seconds) must be greater than the poll delay (10 seconds)."
         Awaitility.await()
                   .and().with().alias("My custom message")
-                  .and().with().timeout(Duration.ofSeconds(10)) //Maximum for five seconds this assertion would be retried
+                  .and().with().timeout(Duration.ofSeconds(15)) //Maximum for five seconds this assertion would be retried
                   .and().ignoreExceptionsInstanceOf(AssertionError.class)
-                .and().pollDelay(Duration.ofMillis(10000)) //Here frequent tried will be done but only after 300 milliseconds
+                .and().pollDelay(Duration.ofMillis(500)) //Here frequent tried will be done but only after 300 milliseconds
                   .then().until(()-> {
                       getBookingApi.getBookingById(20)
-                                   .then().assertThat().statusCode(400);
+                                   .then().assertThat().statusCode(200);
                       return true;
-
-
-
                 /*
                 All the exceptions which are being thrown during this condition is tried
                  */

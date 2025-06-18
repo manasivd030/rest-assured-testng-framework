@@ -88,8 +88,6 @@ This particular block is used for to show the Dataprovider with forloop
 
         var depositPaid = faker.bool().bool();
         var additionalNeeds = faker.food().dish();
-
-        var dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         var futureDate = TestDataHelper.getFutureDate(20,DateTimeFormatter.ISO_DATE);
         System.out.println(firstName.concat(" ")
                                     .concat(lastName)
