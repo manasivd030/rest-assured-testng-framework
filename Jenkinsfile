@@ -8,7 +8,7 @@ pipeline{
     stages {
         stage('Build') {
             steps {
-                sh "mvn clean install -DskipTests"
+                bat "mvn clean install -DskipTests"
             }
         }
 
@@ -24,7 +24,7 @@ pipeline{
 
                     )]) {
 
-                            sh "mvn test -Pregression"
+                            bat "mvn test -Pregression"
 
                     }
                 }
