@@ -11,27 +11,27 @@ public class DeleteBookingApiTests {
     private DeleteBookingApi deleteBookingApi;
 
     @BeforeClass
-    public void initApi()
-    {
+    public void initApi() {
         this.deleteBookingApi = new DeleteBookingApi();
     }
 
     @Test(description = "Delete an existing booking")
-    public void deleteBookingTests()
-    {
-        String username = System.getenv("RESTBOOKER_USERNAME");
-        String password = System.getenv("RESTBOOKER_PASSWORD");
-        var createBookingPayload = ApiRequestHelper.getCreateBookingRequest("Zach", "Newman", 799,
-                false, "Nothing else", "2024-02-02", "2024-03-03");
+    public void deleteBookingTest() {
+        var username = System.getenv("RESTBOOKER_USERNAME");
+        var password = System.getenv("RESTBOOKER_PASSWORD");
 
+        var createBookingPayload = ApiRequestHelper.getCreateBookingRequest("Zach", "Newman",
+                799, false, "Nothing Else", "2024-02-02", "2024-03-03");
         var createBookingApi = new CreateBookingApi();
+
         var createBookingApiResponse = createBookingApi.createNewBooking(createBookingPayload)
                                                        .then().assertThat().statusCode(200)
                                                        .and().body("bookingid", is(not(equalTo(0))));
 
-        var bookingid = createBookingApiResponse.extract().jsonPath().getInt("bookingid");
+        var bookingId = createBookingApiResponse.extract().jsonPath().getInt("bookingid");
 
-        var deleteBookingApi = this.deleteBookingApi.deleteBookingById(bookingid,username,password)
-                                                    .then().assertThat().statusCode(201);
+        var deleteBookingApiResponse = this.deleteBookingApi.deleteBookingById(bookingId, username, password)
+                                                            .then().assertThat().statusCode(201);
     }
+
 }

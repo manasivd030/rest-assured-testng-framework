@@ -1,13 +1,11 @@
 package util;
 
-import pojo.request.Bookingdates;
-import pojo.request.CreateBookingRequest;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ApiRequestHelper {
-    public static Map<String, Object> getCreateBookingRequest(String firstName, String lastName, int totalPrice, boolean depositPaid, String additionalNeeds,
+    public static Map<String, Object> getCreateBookingRequest(String firstName, String lastName, int totalPrice, Boolean depositPaid, String additionalNeeds,
                                                        String checkInDate, String checkOutDate)
 
 
