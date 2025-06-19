@@ -24,7 +24,7 @@ pipeline{
 
                     )]) {
 
-                            bat "mvn test -Pregression"
+                            bat "mvn test -P${profile}"
                         }
                     }
                 }
