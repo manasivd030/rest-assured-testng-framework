@@ -16,8 +16,7 @@ pipeline{
         stage('Test') {
             steps {
                 script{
-                    catchError(buildResult:'UNSTABLE',stageResult:'FAILURE')
-
+                    catchError(buildResult:'UNSTABLE',stageResult:'FAILURE') {
                     withCredentials([usernamePassword(
                             credentialsId:'REST_BOOKER_CREDS',
                             usernameVariable:'RESTBOOKER_USERNAME',
@@ -26,7 +25,7 @@ pipeline{
                     )]) {
 
                             bat "mvn test -Pregression"
-
+                        }
                     }
                 }
             }
