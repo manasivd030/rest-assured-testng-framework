@@ -1,5 +1,10 @@
-pipeline {
+pipeline{
     agent any
+
+//    tools {
+//        jdk 'jdk-23'
+//        maven 'M2_HOME'
+//    }
 
     tools {
         dockerTool 'Docker'
@@ -8,29 +13,25 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                bat "docker build -t rest-assured-cucumber ."
+               // bat "mvn clean install -DskipTests"
+                bat "docker build -t rest-assured-testng ."
             }
         }
 
         stage('Test') {
             steps {
-                script {
-                    catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                        withCredentials([
-                                usernamePassword(
-                                        credentialsId: 'REST_BOOKER_CREDS',
-                                        usernameVariable: 'RESTBOOKER_USERNAME',
-                                        passwordVariable: 'RESTBOOKER_PASSWORD'
-                                )
-                        ]) {
-                            bat """
-                            docker run ^
-                            -v %CD%\\allure-results:/app/allure-results ^
-                            -e RESTBOOKER_USERNAME=%RESTBOOKER_USERNAME% ^
-                            -e RESTBOOKER_PASSWORD=%RESTBOOKER_PASSWORD% ^
-                            -e MAVEN_PROFILE=parallel ^
-                            rest-assured-cucumber
-                            """
+                script{
+                    catchError(buildResult:'UNSTABLE',stageResult:'FAILURE') {
+                    withCredentials([usernamePassword(
+                            credentialsId:'REST_BOOKER_CREDS',
+                            usernameVariable:'RESTBOOKER_USERNAME',
+                            passwordVariable:'RESTBOOKER_PASSWORD'
+
+                    )]) {
+
+                            //bat "mvn test -P${profile}"
+                            bat "docker run -v \$(pwd)/allure-results:/app/allure-results"+
+                                    "-e RESTBOOKER_USERNAME -e RESTBOOKER_PASSWORD -e MAVEN_PROFILE=${profile} rest-assured-testng"
                         }
                     }
                 }
@@ -38,11 +39,14 @@ pipeline {
         }
 
         stage('Report') {
-            steps {
-                script {
-                    allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
-                }
+            steps{
+            script
+                    {
+                        allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+                    }
             }
+
         }
+
     }
 }
