@@ -114,7 +114,7 @@
 
     <profiles>
         <profile>
-            <id>crud-tests</id>
+            <id>crud</id>
             <build>
                 <plugins>
                     <plugin>

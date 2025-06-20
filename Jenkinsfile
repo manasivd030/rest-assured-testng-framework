@@ -1,15 +1,20 @@
 pipeline{
     agent any
 
+//    tools {
+//        jdk 'jdk-23'
+//        maven 'M2_HOME'
+//    }
+
     tools {
-        jdk 'jdk-23'
-        maven 'M2_HOME'
+        dockerTool 'Docker'
     }
 
     stages {
         stage('Build') {
             steps {
-                bat "mvn clean install -DskipTests"
+               // bat "mvn clean install -DskipTests"
+                bat "docker build -t rest-assured-testng ."
             }
         }
 
@@ -24,7 +29,9 @@ pipeline{
 
                     )]) {
 
-                            bat "mvn test -P${profile}"
+                            //bat "mvn test -P${profile}"
+                            bat "docker run -v \$(pwd)/allure-results:/app/allure-results"+
+                                    "-e RESTBOOKER_USERNAME -e RESTBOOKER_PASSWORD -e MAVEN_PROFILE=${profile} rest-assured-testng"
                         }
                     }
                 }
